@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>exercicio 1</title>
+</head>
+<body>
+        <h1>lista de itens</h1>
+        <form name="compritas">
+                <div>
+                    <label>quantidade:<input type="text" name="quantidade" /></label>
+                </div>
+                <div>
+                    <label>item:<input type="text" name="item" /></label>
+                </div>
+                <input type="submit"/>
+                </form>
+                <div>
+                    <button id="limpar">Limpar</button>
+                </div>
+                <ul id="listazada">
+
+                </ul>
+
+                <script>
+                        var lista=document.getElementById("listazada");
+                        var compras=document.forms.compritas;
+                        var limpar= document.querySelector("#limpar");
+                        compras.addEventListener("submit",function processaitem(e)
+                        {
+                            e.preventDefault();
+                            var quantidade= compras.quantidade.value;
+                            var item= compras.item.value;
+                            console.log(item, quantidade);
+                            var novoLi=document.createElement("li");
+                            novoLi.textContent = item +" quantidade: "+ quantidade;
+                            lista.appendChild(novoLi);
+                            compras.reset();
+                            compras.item.focus();
+                        });
+                        limpar.addEventListener("click", function limparLista() {
+                    while(lista.childElementCount != 0){
+                    lista.removeChild(lista.lastChild);
+                }
+                compras.reset();
+        });
+                </script>
+    
+</body>
+</html>
