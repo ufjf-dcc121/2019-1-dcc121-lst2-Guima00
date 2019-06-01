@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>exercicio 2</title>
+</head>
+<body>
+        <h1>lista de itens</h1>
+        <form name="pilha">
+                <div>
+                    <label>valor:<input type="text" name="valor" /></label>
+                </div>
+                <input type="submit"/>
+                </form>
+                <div>
+                    <button id="limpar">desempilhar</button>
+                </div>
+                <ol id="pilhazada">
+
+                </ol>
+
+                <script>
+                        var pilha=document.getElementById("pilhazada");
+                        var pilhaA=document.forms.pilha;
+                        var limpar= document.querySelector("#limpar");
+                        pilhaA.addEventListener("submit",function processavalor(e)
+                        {
+                            e.preventDefault();
+                            var val= pilhaA.valor.value;
+                            console.log(val);
+                            var novoLi=document.createElement("li");
+                            novoLi.textContent = val;
+                            pilha.appendChild(novoLi);
+                            pilhaA.reset();
+                        });
+                        limpar.addEventListener("click", function limparpilha() {
+                    pilha.removeChild(pilha.lastChild);
+                    pilhaA.reset();
+        });
+                </script>
+    
+</body>
+</html>
