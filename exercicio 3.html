@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>exercicio 3</title>
+</head>
+
+<body>
+        <h1>Excursão</h1>
+        <div id="formulario">
+            <form name="formEntrada">
+                <div>
+                <label>Nome: <input type="text" name="nome" /></label>
+                </div>
+                <div>
+                <label>Idade: <input type="text" name="idade" /></label>
+                </div>
+                <input type="submit" name="enviar" />
+                <input type="hidden" value="Excluir" name="excluir" />
+            </form>
+        </div>
+    <div id="corpoListas">
+        <span>
+            <b>Adultos:</b>
+            <ul id="adultos"></ul>
+        </span>
+        <span>
+            <b>Estudantes:</b>
+            <ul id="estudantes"></ul>
+        </span>
+    </div>
+    <script>
+            var formEntrada = document.forms.formEntrada;
+            var enviar = formEntrada.enviar;
+            var nome = formEntrada.nome;
+            var idade = formEntrada.idade;
+            var excluir = formEntrada.excluir;
+            var adultos = [];
+            var estudantes = [];
+            var listaEstudantes = document.querySelector("#estudantes");
+            var listaAdultos = document.querySelector("#adultos");
+            function atualizaAdultos() {
+                listaAdultos.innerHTML = "";
+                for (var i = 0; i < adultos.length; i++) {
+                    var novoElemento = document.createElement("li");
+                    novoElemento.innerHTML = "<span>" + adultos[i].n + "</span> - <span>" + adultos[i].i + "</span>";
+                    novoElemento.addEventListener("click", criaOuvinte(i, 0));
+                    listaAdultos.appendChild(novoElemento);
+                }
+            }
+            enviar.addEventListener("click", function adicionarNaLista(e) {
+                e.preventDefault()
+                if (nome.value != "" && idade.value != "" && !isNaN(Number(idade.value))) {
+                    var pessoa = {
+                        n: nome.value,
+                        i: idade.value
+                    };
+                    if (Number(idade.value) >= 18) {
+                        adultos.push(pessoa);
+                        atualizaAdultos();
+                    } else {
+                        estudantes.push(pessoa);
+                        atualizaEstudantes();
+                    }
+                    formEntrada.reset();
+                }
+            });
+            function atualizaEstudantes() {
+                listaEstudantes.innerHTML = "";
+                for (var i = 0; i < estudantes.length; i++) {
+                    var novoElemento = document.createElement("li");
+                    novoElemento.innerHTML = "<span>" + estudantes[i].n + "</span> - <span>" + estudantes[i].i + "</span>";
+                    novoElemento.addEventListener("click", criaOuvinte(i, 0));
+                    listaEstudantes.appendChild(novoElemento);
+                }
+            }
+            function criaOuvinte(n, tipo) {
+                return function itemClicado(e) {
+                    excluir.type = "button";
+                    var editaveis = e.srcElement.parentElement.querySelectorAll("span");
+                    for (var j = 0; j < editaveis.length; j++) {
+                        editaveis[j].contentEditable = true;
+                    }
+                    excluir.addEventListener("click", function excluirElemento() {
+                        console.log(n, tipo);
+                        if (tipo == 0) {
+                            console.log("Adultos length: " + adultos.length);
+                            adultos.splice(n, 1);
+                            console.log("Adultos length: " + adultos.length);
+                            atualizaAdultos();
+                        } else {
+                            estudantes.splice(n, 1);
+                            atualizaEstudantes();
+                        }
+                    });
+                }
+            }
+        </script>
+    </body>
+    
+    </html>
